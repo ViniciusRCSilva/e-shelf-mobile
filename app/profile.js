@@ -6,18 +6,26 @@ import SignOutBtn from '../assets/signOut_button.png'
 import userIcon from '../assets/user_icon.png'
 import { auth } from '../src/firebaseConfig';
 import { useRouter } from 'expo-router';
+import { signOut } from 'firebase/auth';
 
 export default function User() {
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState('')
+    const currentUser = auth.currentUser
 
     const route = useRouter()
 
-    function goToLogin() {
-        route.replace('/')
+    function logout() {
+      signOut(auth)
+        .then(() => {
+          route.replace('/')
+        })
+        .catch((error) => {
+          const errorMessage = error.errorMessage
+        })
     }
 
     useEffect(() => {
-        setUser(auth.currentUser.email)
+        setUser(currentUser.email)
     }, [user])
 
     return (
@@ -28,7 +36,7 @@ export default function User() {
         <Text style={styles.text}>3</Text>
 
         <TouchableOpacity 
-            onPress={goToLogin}
+            onPress={logout}
         >
             <Image source={SignOutBtn} style={styles.button} />
         </TouchableOpacity>
