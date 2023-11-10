@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import BottomBar from '../components/bottom_bar';
 import Books from '../components/book_box';
 import { auth } from '../src/firebaseConfig';
@@ -9,7 +9,7 @@ export default function Home() {
   const route = useRouter()
 
   if(currentUser != null) {
-    Alert.alert('Bem-Vindo de volta ' + currentUser.email)
+    // Usuário logado
   } else {
     alert('É necessário estar logado para utilizar esse recurso!')
     route.replace('/')
