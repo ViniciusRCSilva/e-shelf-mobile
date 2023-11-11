@@ -32,6 +32,7 @@ export default function AddBook() {
                     value={bookName}
                     onChangeText={setBookName}
                     placeholder='Nome' 
+                    placeholderTextColor="#C4C4C4"
                 />
                 <TextInput 
                     keyboardAppearance='dark'
@@ -40,6 +41,7 @@ export default function AddBook() {
                     value={bookValue}
                     onChangeText={setBookValue}
                     placeholder='Valor' 
+                    placeholderTextColor="#C4C4C4"
                 />
             </View>
 

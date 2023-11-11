@@ -35,7 +35,7 @@ export default function Register() {
                   const errorMessage = error.message;
                   router.replace('/')
                   alert(errorMessage);
-                })
+              })
       }
     }
 
@@ -49,6 +49,7 @@ export default function Register() {
           keyboardAppearance='dark'
           style={styles.input}
           placeholder='E-mail' 
+          placeholderTextColor="#C4C4C4"
           value={newUser}
           onChangeText={setNewUser}
       />
@@ -56,6 +57,7 @@ export default function Register() {
           keyboardAppearance='dark'
           style={styles.input}
           placeholder='Senha' 
+          placeholderTextColor="#C4C4C4"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={true}
@@ -64,6 +66,7 @@ export default function Register() {
           keyboardAppearance='dark'
           style={styles.input}
           placeholder='Repetir a senha' 
+          placeholderTextColor="#C4C4C4"
           value={rePassword}
           onChangeText={setRePassword}
           secureTextEntry={true}
@@ -76,7 +79,7 @@ export default function Register() {
       </TouchableOpacity>
 
       <Text 
-        style={styles.text}
+        style={styles.textLink}
         onPress={goToLogin}
       >
         Voltar
@@ -100,6 +103,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+    color: '#C1AA8B',
+  },
+  textLink: {
+    fontSize: 16,
+    textDecorationLine: 'underline',
     color: '#C1AA8B',
   },
   bar: {

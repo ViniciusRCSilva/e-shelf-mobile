@@ -37,14 +37,16 @@ export default function Login() {
       <TextInput 
           keyboardAppearance='dark'
           style={styles.input}
-          placeholder='E-mail' 
+          placeholder='E-mail'
+          placeholderTextColor="#C4C4C4"
           value={user}
           onChangeText={setUser}
       />
       <TextInput 
           keyboardAppearance='dark'
           style={styles.input}
-          placeholder='Senha' 
+          placeholder='Senha'
+          placeholderTextColor="#C4C4C4" 
           value={password}
           onChangeText={setPassword}
           secureTextEntry={true}
@@ -60,7 +62,13 @@ export default function Login() {
         style={styles.text}
         onPress={goToRegister}
       >
-        Não tenho uma conta
+        Não tem uma conta?
+      </Text>
+      <Text 
+        style={styles.textLink}
+        onPress={goToRegister}
+      >
+        Clique aqui para criar
       </Text>
     </View>
   );
@@ -81,6 +89,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+    color: '#C1AA8B',
+  },
+  textLink: {
+    fontSize: 16,
+    textDecorationLine: 'underline',
     color: '#C1AA8B',
   },
   bar: {
