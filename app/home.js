@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#EFEAE2',
     alignItems: 'center',
-    paddingTop: 100,
+    paddingTop: 50,
     gap: 50,
     overflow: 'visible',
   },
