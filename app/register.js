@@ -1,6 +1,6 @@
 // Importando módulos e componentes necessários do React e React Native
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';  // Importando o roteador do Expo
 import { auth, db, collection, addDoc, createUserWithEmailAndPassword } from '../src/firebaseConfig';  // Importando funções e configurações do Firebase
 
@@ -127,6 +127,8 @@ export default function Register() {
             >
                 Voltar
             </Text>
+
+            <StatusBar barStyle="dark-content" />
         </View>
     );
 }

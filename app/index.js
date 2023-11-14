@@ -1,6 +1,6 @@
 // Importando módulos e componentes necessários do React e React Native
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';  // Biblioteca de roteamento para o Expo
 import { auth, signInWithEmailAndPassword } from '../src/firebaseConfig';  // Importando funções de autenticação
 import logo from '../assets/logo.png';  // Importando a imagem do logotipo
@@ -83,6 +83,8 @@ export default function Login() {
       >
         Clique aqui para criar
       </Text>
+
+      <StatusBar barStyle="dark-content" />
     </View>
   );
 }

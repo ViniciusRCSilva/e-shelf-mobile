@@ -1,6 +1,6 @@
 // Importando módulos e componentes necessários do React Native
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
 
 // Importando componentes personalizados
 import BottomBar from '../components/bottom_bar';
@@ -122,6 +122,8 @@ export default function User() {
 
             {/* Componente da barra inferior */}
             <BottomBar />
+
+            <StatusBar barStyle="dark-content" />
         </View>
     );
 }

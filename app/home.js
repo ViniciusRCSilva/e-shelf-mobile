@@ -1,5 +1,5 @@
 // Importando módulos e componentes necessários do React Native
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import BottomBar from '../components/bottom_bar';  // Importando o componente BottomBar
 import Books from '../components/book_box';  // Importando o componente Books
 import { auth, collection, db, getDocs, query, where } from '../src/firebaseConfig';  // Importando funções e configurações do Firebase
@@ -77,7 +77,7 @@ export default function Home() {
         // Se houver livros, mapear e exibir cada um usando o componente Books
         books.map((book, index) => (
           <View key={index}>
-            <Books id={index.toString()} nome={book.bookName} valor={book.bookValue} />
+            <Books nome={book.bookName} valor={book.bookValue} comprei={book.hasOwn} />
           </View>
         ))
       ) : (
@@ -86,6 +86,8 @@ export default function Home() {
       )}
       {/* Incluindo o componente BottomBar no final da tela */}
       <BottomBar />
+
+      <StatusBar barStyle="dark-content" />
     </View>
   );
 }

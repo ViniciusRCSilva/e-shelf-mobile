@@ -1,6 +1,6 @@
 // Importando módulos e componentes necessários do React Native
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert, StatusBar } from 'react-native';
 
 // Importando o componente BottomBar e a imagem do botão de voltar
 import BottomBar from '../components/bottom_bar';
@@ -28,7 +28,8 @@ export default function AddBook() {
     // Objeto com os dados do livro
     const bookData = {
       bookName: bookName,
-      bookValue: bookValue
+      bookValue: bookValue,
+      hasOwn: false
     };
 
     // Função assíncrona para adicionar o livro
@@ -123,6 +124,8 @@ export default function AddBook() {
 
             {/* Incluindo o componente BottomBar no final da tela */}
             <BottomBar />
+
+            <StatusBar barStyle="dark-content" />
         </View>
     );
 }

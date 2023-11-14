@@ -1,5 +1,5 @@
 // Importando módulos e componentes necessários do React Native
-import { StyleSheet, Image, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity, View, StatusBar } from 'react-native'
 
 // Importando ícones da barra inferior
 import home_btn from '../assets/house_button.png'
@@ -52,6 +52,8 @@ export default function BottomBar() {
             >
                 <Image source={user_btn} style={styles.btn_lateral} />
             </TouchableOpacity>
+
+            <StatusBar barStyle="dark-content" />
         </View>
     );
 }
