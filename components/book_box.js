@@ -1,5 +1,5 @@
 // Importando módulos e componentes necessários do React Native
-import { StyleSheet, Image, TouchableOpacity, View, Text, Alert, TextInput } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity, View, Text, Alert, TextInput, StatusBar } from 'react-native'
 
 // Importando imagens e componentes
 import edit_btn from '../assets/edit_button.png'
@@ -10,6 +10,7 @@ import edit_modal_btn from '../assets/edit_button_book.png'
 import back_btn from '../assets/back_button.png'
 import { useRouter } from 'expo-router'
 import Modal from 'react-native-modal';
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 // Importando funções e módulos relacionados ao Firebase e React
 import { arrayRemove, auth, collection, db, getDoc, getDocs, query, updateDoc, where } from '../src/firebaseConfig'
@@ -20,6 +21,7 @@ export default function Books(props) {
     // Estados para armazenar o nome do livro, valor do livro, visibilidade do modal e modo de edição
     const [bookName, setBookName] = useState(props.nome)
     const [bookValue, setBookValue] = useState(props.valor)
+    const [hasOwn, setHasOwn] = useState(props.comprei)
     const [isModalVisible, setModalVisible] = useState(false);
     const [isEditingMode, setEditingMode] = useState(false);
 
@@ -48,6 +50,10 @@ export default function Books(props) {
     function btnEditBook() {
       setEditingMode(true); // Definindo o modo de edição como verdadeiro
     };
+
+    function handleHasOwn() {
+      setHasOwn(!props.comprei);
+    }
 
     // Função para lidar com a exclusão do livro
     function handleDeleteBook() {
@@ -126,6 +132,7 @@ export default function Books(props) {
               const updatedBook = {
                 bookName: bookName || props.nome, // Usando o novo nome se fornecido, senão mantendo o antigo
                 bookValue: bookValue || props.valor, // Usando o novo valor se fornecido, senão mantendo o antigo
+                hasOwn: hasOwn // Usando a nova opção se fornecida
               };
     
               // Substituindo o livro antigo pelo livro atualizado
@@ -172,7 +179,11 @@ export default function Books(props) {
                 
               <View>
                 <Text style={styles.title}>{limitPhrase(props.nome, 15)}</Text>
-                <Text style={styles.text}>R$ {props.valor}</Text>
+                {hasOwn == false ? (
+                  <Text style={styles.text}>R$ {props.valor}</Text>
+                ) : (
+                  <Text style={styles.text}>Comprado!</Text>
+                )}
               </View>
             </View>
 
@@ -223,6 +234,19 @@ export default function Books(props) {
                       placeholder='Valor' 
                       placeholderTextColor="#C4C4C4"
                   />
+
+                  <BouncyCheckbox
+                    size={25}
+                    fillColor="#C1AA8B"
+                    text="Marcar como comprado"
+                    iconStyle={{ borderColor: "#C1AA8B" }}
+                    innerIconStyle={{ borderWidth: 2 }}
+                    isChecked={hasOwn}
+                    textStyle={{
+                      textDecorationLine: "none",
+                    }}
+                    onPress={handleHasOwn}
+                  />
               </View>
 
               {/* Botões para confirmar ou cancelar a edição */}
@@ -256,7 +280,11 @@ export default function Books(props) {
               <Image source={book_icon} style={modalStyles.icon} />
 
               <Text style={modalStyles.title}>{props.nome}</Text>
-              <Text style={modalStyles.text}>R$ {props.valor}</Text>
+              {hasOwn == false ? (
+                <Text style={modalStyles.text}>R$ {props.valor}</Text>
+                ) : (
+                <Text style={modalStyles.text}>Comprado!</Text>
+              )}
             </View>
 
             {/* Botões de ação para edição e exclusão */}
@@ -272,6 +300,8 @@ export default function Books(props) {
           </View>
           )}
         </Modal>
+
+        <StatusBar barStyle="dark-content" />
       </View>
     );
 }
