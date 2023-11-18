@@ -1,14 +1,16 @@
 // Importando módulos e componentes necessários do React Native
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert, StatusBar } from 'react-native';
+import { Text, View, Image, TouchableOpacity, TextInput, Alert, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 // Importando o componente BottomBar e a imagem do botão de voltar
 import BottomBar from '../components/bottom_bar';
 import back_btn from '../assets/cancel_button.png';
 
-// Importando módulos e funções relacionados ao roteador e Firebase
-import { useRouter } from 'expo-router';
+// Importando módulos e funções relacionados ao Firebase
 import { db, auth, collection, arrayUnion, updateDoc, where, getDocs, query } from '../src/firebaseConfig';
+
+import { goToHome } from '../src/routePaths';
+import { actionBookStyle, global } from '../styles/style';
 
 // Componente funcional para adicionar um livro
 export default function AddBook() {
@@ -16,20 +18,14 @@ export default function AddBook() {
     const [bookName, setBookName] = useState('');
     const [bookValue, setBookValue] = useState('');
 
-    // Obtendo o usuário atualmente autenticado e o roteador
+    // Obtendo o usuário atualmente autenticado
     const currentUser = auth.currentUser;
-    const route = useRouter();
-
-    // Função para navegar de volta à tela inicial
-    function goToHome() {
-      route.replace('/home');
-    }
 
     // Objeto com os dados do livro
     const bookData = {
       bookName: bookName,
       bookValue: bookValue,
-      hasOwn: false
+      hasOwn: false,
     };
 
     // Função assíncrona para adicionar o livro
@@ -53,39 +49,41 @@ export default function AddBook() {
     
             // Exibindo um alerta de sucesso e navegando de volta à tela inicial
             Alert.alert('Livro ' + bookData.bookName + ' foi adicionado com sucesso!');
-            route.replace('/home');
+            goToHome();
           } else {
             console.log('Nenhum documento do usuário encontrado.');
           }
         } else {
           // Se o usuário não estiver autenticado, exibir um alerta
-          alert('É necessário estar logado para utilizar esse recurso!');
+          Alert.alert('É necessário estar logado para utilizar esse recurso!');
         }
       } catch (error) {
         // Em caso de erro, registrar no console
         console.log('Erro ao adicionar o livro: ', error);
+        Alert.alert('Ocorreu um erro ao adicionar o livro!');
       }
     }
 
     // JSX para a interface da tela de adição de livro
     return (
-        <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={actionBookStyle.container}>
             {/* Área do botão de voltar */}
-            <View style={styles.back_button_area}>
+            <View style={global.ReturnButtonArea}>
                 <TouchableOpacity
                     onPress={goToHome}
                 >
-                    <Image source={back_btn} style={styles.button} />
+                    <Image source={back_btn} style={global.ReturnButton} />
                 </TouchableOpacity>
             </View>
 
             {/* Área de entrada do livro */}
-            <View style={styles.book_input}>            
-                <Text style={styles.title}>Adicionar Livro</Text>
+            <View style={actionBookStyle.inputBookArea}>            
+                <Text style={global.title}>Adicionar Livro</Text>
                 {/* TextInput para o nome do livro */}
                 <TextInput 
                     keyboardAppearance='dark'
-                    style={styles.input}
+                    style={global.input}
                     value={bookName}
                     onChangeText={setBookName}
                     placeholder='Nome' 
@@ -95,7 +93,7 @@ export default function AddBook() {
                 <TextInput 
                     keyboardAppearance='dark'
                     keyboardType='numeric'
-                    style={styles.input}
+                    style={global.input}
                     value={bookValue}
                     onChangeText={setBookValue}
                     placeholder='Valor' 
@@ -104,21 +102,21 @@ export default function AddBook() {
             </View>
 
             {/* Área dos botões de ação */}
-            <View style={styles.buttons_area}>
+            <View style={actionBookStyle.buttonsArea}>
                 {/* Botão para adicionar o livro */}
                 <TouchableOpacity
                     onPress={addBook}
-                    style={styles.add_button}
+                    style={global.buttonActionBook}
                 >
-                    <Text style={styles.add_text}>Adicionar</Text>
+                    <Text style={global.buttonText}>Adicionar</Text>
                 </TouchableOpacity>
 
                 {/* Botão para cancelar e voltar à tela inicial */}
                 <TouchableOpacity
                     onPress={goToHome}
-                    style={styles.cancel_button}
+                    style={global.cancelButton}
                 >
-                    <Text style={styles.cancel_text}>Cancelar</Text>
+                    <Text style={global.cancelText}>Cancelar</Text>
                 </TouchableOpacity>
             </View>
 
@@ -127,71 +125,6 @@ export default function AddBook() {
 
             <StatusBar barStyle="dark-content" />
         </View>
+      </TouchableWithoutFeedback>
     );
 }
-
-// Estilos para os componentes usando StyleSheet.create
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#EFEAE2',
-    alignItems: 'center',
-    paddingTop: 100,
-    gap: 30,
-  },
-  back_button_area: {
-    width: '80%',
-    justifyContent: 'flex-start',
-    paddingBottom: 80,
-  },
-  input: {
-    width: 200,
-    height: 40,
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderRadius: 100,
-    borderColor: '#C1AA8B',
-    padding: 10,
-    paddingLeft: 8,
-    paddingHorizontal: 50,
-  },
-  buttons_area: {
-    width: 200,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  button: {
-    width: 50,
-    height: 50,
-    resizeMode: 'contain',
-  },
-  book_input: {
-    alignItems: 'center',
-    gap: 20,
-  },
-  title: {
-    color: '#C1AA8B',
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-  text: {
-    color: '#C1AA8B',
-    fontSize: 24,
-  },
-  add_button: {
-    backgroundColor: '#C1AA8B',
-    padding: 15,
-    borderRadius: 100,
-  },
-  add_text: {
-    color: '#fff',
-  },
-  cancel_button: {
-    backgroundColor: '#B42929',
-    padding: 15,
-    borderRadius: 100,
-  },
-  cancel_text: {
-    color: '#fff',
-  },
-});

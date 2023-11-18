@@ -1,15 +1,16 @@
 // Importando módulos e componentes necessários do React Native
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
 
 // Importando componentes personalizados
 import BottomBar from '../components/bottom_bar';
 import SignOutBtn from '../assets/signOut_button.png'
 import userIcon from '../assets/user_icon.png'
 
-// Importando módulos e funções relacionados ao Firebase e React
+// Importando módulos e funções relacionados ao Firebase
 import { auth, collection, db, getDocs, query, signOut, where } from '../src/firebaseConfig';
-import { useRouter } from 'expo-router';
+import { goToLogin } from '../src/routePaths';
+import { global, profileStyle } from '../styles/style';
 
 // Componente funcional para a tela do usuário
 export default function User() {
@@ -18,14 +19,11 @@ export default function User() {
     const [booksCount, setBooksCount] = useState('Carregando...')
     const currentUser = auth.currentUser
 
-    // Obtendo o roteador para navegação
-    const route = useRouter()
-
     // Função para realizar o logout
     function logout() {
       signOut(auth)
         .then(() => {
-          route.replace('/')
+          goToLogin();
         })
         .catch((error) => {
           const errorMessage = error.errorMessage
@@ -102,22 +100,22 @@ export default function User() {
 
     // JSX para renderizar o componente da tela do usuário
     return (
-        <View style={styles.container}>
+        <View style={profileStyle.container}>
             {/* Exibindo o ícone do usuário */}
-            <Image source={userIcon} style={styles.icon} />
+            <Image source={userIcon} style={profileStyle.icon} />
 
             {/* Exibindo o nome do usuário */}
-            <Text style={styles.title}>{user}</Text>
+            <Text style={global.title}>{user}</Text>
 
             {/* Exibindo o total de livros cadastrados */}
-            <Text style={styles.text}>Total de Livros cadastrados:</Text>
-            <Text style={styles.text}>{booksCount}</Text>
+            <Text style={global.text}>Total de Livros cadastrados:</Text>
+            <Text style={global.text}>{booksCount}</Text>
 
             {/* Botão para realizar o logout */}
             <TouchableOpacity 
                 onPress={logout}
             >
-                <Image source={SignOutBtn} style={styles.button} />
+                <Image source={SignOutBtn} style={profileStyle.signOutButton} />
             </TouchableOpacity>
 
             {/* Componente da barra inferior */}
@@ -127,33 +125,3 @@ export default function User() {
         </View>
     );
 }
-
-// Estilos para o componente
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#EFEAE2',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 20,
-    overflow: 'visible',
-  },
-  icon: {
-    width: 150,
-    height: 150,
-    resizeMode: 'contain',
-  },
-  title: {
-    color: '#C1AA8B',
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-  text: {
-    color: '#C1AA8B',
-    fontSize: 20,
-  },
-  button: {
-    width: 100,
-    resizeMode: 'contain',
-  },
-});

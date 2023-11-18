@@ -1,10 +1,11 @@
 // Importando módulos e componentes necessários do React e React Native
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert, StatusBar } from 'react-native';
-import { useRouter } from 'expo-router';  // Importando o roteador do Expo
+import { Text, View, Image, TouchableOpacity, TextInput, Alert, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { auth, db, collection, addDoc, createUserWithEmailAndPassword } from '../src/firebaseConfig';  // Importando funções e configurações do Firebase
 
 import logo from '../assets/logo.png';  // Importando o logotipo
+import { goToLogin } from '../src/routePaths';
+import { global } from '../styles/style';
 
 // Componente funcional para a tela de registro
 export default function Register() {
@@ -13,23 +14,28 @@ export default function Register() {
     const [newName, setNewName] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
-    const router = useRouter();  // Acessando o roteador do Expo
 
-    // Função para navegar até a tela de login
-    function goToLogin() {
-        router.replace('/');
-    }
+    // Objeto com os dados do usuário
+    const userData = {
+        user: newUser,
+        name: newName,
+        books: []
+    };
 
     // Função assíncrona para criar um novo usuário
     async function handleCreateUser() {
         // Verificando se os campos estão preenchidos
         if(newUser === '' || password === '' || rePassword === '') {
-            alert('Os campos devem ser preenchidos!');
+            Alert.alert('Todos os campos devem ser preenchidos!');
+            return;
+        }
+        if(newName.length > 20) {
+            Alert.alert('O nome deve conter até 20 caracteres!');
             return;
         }
         // Verificando se as senhas coincidem
         if(password !== rePassword) {
-            alert('A senha e a confirmação de senha não são iguais!');
+            Alert.alert('A senha e a confirmação de senha não são iguais!');
             return;
         } else {
             // Criando o usuário usando a função do Firebase
@@ -37,26 +43,21 @@ export default function Register() {
                 .then((UserCredential) => {
                     const user = UserCredential.user;
                     // Exibindo um alerta de sucesso e adicionando o usuário ao banco de dados
-                    Alert.alert('O usuário ' + newUser + ' foi criado. Faça o login!');
+                    Alert.alert(newUser + ' foi criado. Faça o login!');
                     addUser();
                     // Navegando de volta à tela de login
-                    router.replace('/');
+                    goToLogin();
                 })
                 .catch((error) => {
-                    // Em caso de erro, exibindo um alerta e navegando de volta à tela de login
+                    // Em caso de erro, exibe um alerta
                     const errorMessage = error.message;
-                    router.replace('/');
-                    alert(errorMessage);
+                    console.log(errorMessage)
+                    errorMessage == 'Firebase: Error (auth/invalid-email).' && Alert.alert('Formato de email inválido! Exemplo: johndoe@gmail.com');
+                    errorMessage == 'Firebase: Error (auth/email-already-in-use).' && Alert.alert('Esse email já está cadastrado!');
+                    errorMessage == 'Firebase: Password should be at least 6 characters (auth/weak-password).' && Alert.alert('Sua senha deve conter no mínimo 6 caracteres!');
                 });
         }
     }
-
-    // Objeto com os dados do usuário
-    const userData = {
-        user: newUser,
-        name: newName,
-        books: [],
-    };
 
     // Função assíncrona para adicionar o usuário ao banco de dados
     async function addUser() {
@@ -69,120 +70,68 @@ export default function Register() {
 
     // JSX para a interface da tela de registro
     return (
-        <View style={styles.container}>
-            <Image source={logo} style={styles.logo} />
-            <Text style={styles.text}>Sua Biblioteca Digital Pessoal</Text>
-            <View style={styles.bar}></View>
-            <Text style={styles.text}>Registro</Text>
-            {/* TextInput para inserir o e-mail */}
-            <TextInput
-                keyboardAppearance='dark'
-                style={styles.input}
-                placeholder='E-mail'
-                placeholderTextColor="#C4C4C4"
-                value={newUser}
-                onChangeText={setNewUser}
-            />
-            {/* TextInput para inserir o nome */}
-            <TextInput
-                keyboardAppearance='dark'
-                style={styles.input}
-                placeholder='Nome'
-                placeholderTextColor="#C4C4C4"
-                value={newName}
-                onChangeText={setNewName}
-            />
-            {/* TextInput para inserir a senha */}
-            <TextInput
-                keyboardAppearance='dark'
-                style={styles.input}
-                placeholder='Senha'
-                placeholderTextColor="#C4C4C4"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={true}
-            />
-            {/* TextInput para confirmar a senha */}
-            <TextInput
-                keyboardAppearance='dark'
-                style={styles.input}
-                placeholder='Repetir a senha'
-                placeholderTextColor="#C4C4C4"
-                value={rePassword}
-                onChangeText={setRePassword}
-                secureTextEntry={true}
-            />
-            {/* TouchableOpacity para o botão de criação de usuário */}
-            <TouchableOpacity
-                style={styles.button}
-                onPress={handleCreateUser}
-            >
-                <Text style={styles.buttonText}>Criar</Text>
-            </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={global.container}>
+                <Image source={logo} style={global.logo} />
+                <Text style={global.text}>Sua Biblioteca Digital Pessoal</Text>
+                <View style={global.bar}></View>
+                <Text style={global.text}>Registro</Text>
+                {/* TextInput para inserir o e-mail */}
+                <TextInput
+                    keyboardAppearance='dark'
+                    style={global.input}
+                    placeholder='E-mail'
+                    placeholderTextColor="#C4C4C4"
+                    value={newUser}
+                    onChangeText={setNewUser}
+                />
+                {/* TextInput para inserir o nome */}
+                <TextInput
+                    keyboardAppearance='dark'
+                    style={global.input}
+                    placeholder='Nome'
+                    placeholderTextColor="#C4C4C4"
+                    value={newName}
+                    onChangeText={setNewName}
+                />
+                {/* TextInput para inserir a senha */}
+                <TextInput
+                    keyboardAppearance='dark'
+                    style={global.input}
+                    placeholder='Senha'
+                    placeholderTextColor="#C4C4C4"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={true}
+                />
+                {/* TextInput para confirmar a senha */}
+                <TextInput
+                    keyboardAppearance='dark'
+                    style={global.input}
+                    placeholder='Repetir a senha'
+                    placeholderTextColor="#C4C4C4"
+                    value={rePassword}
+                    onChangeText={setRePassword}
+                    secureTextEntry={true}
+                />
+                {/* TouchableOpacity para o botão de criação de usuário */}
+                <TouchableOpacity
+                    style={global.button}
+                    onPress={handleCreateUser}
+                >
+                    <Text style={global.buttonText}>Criar</Text>
+                </TouchableOpacity>
 
-            {/* Texto para navegar de volta à tela de login */}
-            <Text
-                style={styles.textLink}
-                onPress={goToLogin}
-            >
-                Voltar
-            </Text>
+                {/* Texto para navegar de volta à tela de login */}
+                <Text
+                    style={global.textLink}
+                    onPress={goToLogin}
+                >
+                    Voltar
+                </Text>
 
-            <StatusBar barStyle="dark-content" />
-        </View>
+                <StatusBar barStyle="dark-content" />
+            </View>
+        </TouchableWithoutFeedback>
     );
 }
-
-// Estilos para os componentes usando StyleSheet.create
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#EFEAE2',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 15,
-    },
-    logo: {
-        width: 200,
-        height: 100,
-        resizeMode: 'contain',
-    },
-    text: {
-        fontSize: 16,
-        color: '#C1AA8B',
-    },
-    textLink: {
-        fontSize: 16,
-        textDecorationLine: 'underline',
-        color: '#C1AA8B',
-    },
-    bar: {
-        width: 250,
-        height: 5,
-        backgroundColor: '#D0BFA8',
-        borderRadius: 100,
-    },
-    input: {
-        width: 200,
-        height: 40,
-        backgroundColor: '#fff',
-        borderWidth: 1,
-        borderRadius: 100,
-        borderColor: '#C1AA8B',
-        padding: 10,
-        paddingLeft: 8,
-        paddingHorizontal: 50,
-    },
-    button: {
-        width: 200,
-        padding: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#C1AA8B',
-        borderRadius: 100,
-    },
-    buttonText: {
-        color: '#fff',
-    }
-});

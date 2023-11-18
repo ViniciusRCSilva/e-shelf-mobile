@@ -1,17 +1,17 @@
 // Importando módulos e componentes necessários do React Native
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, Text, View } from 'react-native';
 import BottomBar from '../components/bottom_bar';  // Importando o componente BottomBar
 import Books from '../components/book_box';  // Importando o componente Books
 import { auth, collection, db, getDocs, query, where } from '../src/firebaseConfig';  // Importando funções e configurações do Firebase
-import { useRouter } from 'expo-router';  // Importando o roteador do Expo
 import { useEffect, useState } from 'react';  // Importando hooks do React
+import { goToLogin } from '../src/routePaths';
+import { global, homeStyle } from '../styles/style';
 
 // Componente funcional para a tela principal (Home)
 export default function Home() {
   // Estado para armazenar a lista de livros do usuário
   const [books, setBooks] = useState([]);
   const currentUser = auth.currentUser;  // Obtendo o usuário atualmente autenticado
-  const route = useRouter();
 
   // Verificando se há um usuário autenticado
   if(currentUser != null) {
@@ -19,7 +19,7 @@ export default function Home() {
   } else {
     // Se não houver usuário autenticado, exibir um alerta e redirecionar para a tela de login
     alert('É necessário estar logado para utilizar esse recurso!');
-    route.replace('/');
+    goToLogin();
   }
 
   // Função assíncrona para obter os livros associados ao usuário atual
@@ -71,7 +71,7 @@ export default function Home() {
 
   // JSX para a interface da tela principal
   return (
-    <View style={styles.container}>
+    <View style={homeStyle.container}>
       {/* Verificando se o usuário possui livros cadastrados */}
       {books.length > 0 ? (
         // Se houver livros, mapear e exibir cada um usando o componente Books
@@ -82,7 +82,7 @@ export default function Home() {
         ))
       ) : (
         // Se o usuário não tiver livros cadastrados, exibir uma mensagem
-        <Text style={styles.text}>Você não tem livros cadastrados.</Text>
+        <Text style={global.title}>Você não tem livros cadastrados.</Text>
       )}
       {/* Incluindo o componente BottomBar no final da tela */}
       <BottomBar />
@@ -91,21 +91,3 @@ export default function Home() {
     </View>
   );
 }
-
-// Estilos para os componentes usando StyleSheet.create
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#EFEAE2',
-    alignItems: 'center',
-    paddingTop: 50,
-    gap: 50,
-    overflow: 'visible',
-  },
-  text: {
-    color: '#C1AA8B',
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
