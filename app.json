@@ -8,6 +8,12 @@
       "expo-router"
     ],
     "name": "e-shelf",
-    "slug": "e-shelf"
+    "slug": "e-shelf",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain"
+    }
   }
 }
