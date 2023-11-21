@@ -79,6 +79,7 @@ export default function Register() {
                 {/* TextInput para inserir o e-mail */}
                 <TextInput
                     keyboardAppearance='dark'
+                    keyboardType='email-address'
                     style={global.input}
                     placeholder='E-mail'
                     placeholderTextColor="#C4C4C4"
