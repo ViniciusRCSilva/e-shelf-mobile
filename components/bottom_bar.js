@@ -17,6 +17,7 @@ export default function BottomBar() {
             {/* Botão para ir para a tela inicial */}
             <TouchableOpacity
                 onPress={goToHome}
+                style={bottomBarStyle.btnLateralContainer}
             >
                 <Image source={home_btn} style={bottomBarStyle.btnLateral} />
             </TouchableOpacity>
@@ -24,6 +25,7 @@ export default function BottomBar() {
             {/* Botão para ir para a tela de adição de livro */}
             <TouchableOpacity
                 onPress={goToAddBook}
+                style={bottomBarStyle.btnMiddleContainer}
             >
                 <Image source={add_btn} style={bottomBarStyle.btnMiddle} />
             </TouchableOpacity>
@@ -31,6 +33,7 @@ export default function BottomBar() {
             {/* Botão para ir para a tela de perfil do usuário */}
             <TouchableOpacity
                 onPress={goToProfile}
+                style={bottomBarStyle.btnLateralContainer}
             >
                 <Image source={user_btn} style={bottomBarStyle.btnLateral} />
             </TouchableOpacity>
