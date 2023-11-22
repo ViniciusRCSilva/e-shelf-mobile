@@ -88,8 +88,7 @@ const homeStyle = StyleSheet.create({
     backgroundColor: '#EFEAE2',
     alignItems: 'center',
     paddingTop: 50,
-    gap: 50,
-    overflow: 'visible',
+    paddingBottom: 100,
   },
 });
 
@@ -210,6 +209,7 @@ const bookBoxStyle = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    marginBottom: 40,
   },
   info: {
     width: '50%',

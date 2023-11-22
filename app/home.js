@@ -1,16 +1,19 @@
 // Importando módulos e componentes necessários do React Native
-import { ScrollView, StatusBar, Text, View } from 'react-native';
+import { Image, ScrollView, StatusBar, Text, View } from 'react-native';
 import BottomBar from '../components/bottom_bar';  // Importando o componente BottomBar
 import Books from '../components/book_box';  // Importando o componente Books
 import { auth, collection, db, getDocs, query, where } from '../src/firebaseConfig';  // Importando funções e configurações do Firebase
 import { useEffect, useState } from 'react';  // Importando hooks do React
 import { goToLogin } from '../src/routePaths';
-import { global, homeStyle } from '../styles/style';
+import { global, homeStyle, modalStyles } from '../styles/style';
+import logo from '../assets/logo.png';  // Importando a imagem do logotipo
+import Modal from 'react-native-modal';
 
 // Componente funcional para a tela principal (Home)
 export default function Home() {
   // Estado para armazenar a lista de livros do usuário
   const [books, setBooks] = useState([]);
+  const [isModalVisible, setModalVisible] = useState(true);
   const currentUser = auth.currentUser;  // Obtendo o usuário atualmente autenticado
 
   // Verificando se há um usuário autenticado
@@ -67,6 +70,7 @@ export default function Home() {
 
     // Chamando a função interna
     fetchBooks();
+    setModalVisible(false);
   }, []);  // O array de dependências vazio indica que o efeito ocorre apenas uma vez, equivalente ao componentDidMount
 
   // JSX para a interface da tela principal
@@ -86,6 +90,16 @@ export default function Home() {
           <Text style={global.title}>Você não tem livros cadastrados.</Text>
         )}
       </ScrollView>
+
+      <Modal
+        isVisible={isModalVisible}
+      >
+        <View style={modalStyles.container}>
+          <Image source={logo} style={global.logo} />
+          <Text style={global.title}>Carregando</Text>
+        </View>
+      </Modal>
+
       {/* Incluindo o componente BottomBar no final da tela */}
       <BottomBar />
 
