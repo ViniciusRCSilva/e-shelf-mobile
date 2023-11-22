@@ -1,5 +1,5 @@
 // Importando módulos e componentes necessários do React Native
-import { StatusBar, Text, View } from 'react-native';
+import { ScrollView, StatusBar, Text, View } from 'react-native';
 import BottomBar from '../components/bottom_bar';  // Importando o componente BottomBar
 import Books from '../components/book_box';  // Importando o componente Books
 import { auth, collection, db, getDocs, query, where } from '../src/firebaseConfig';  // Importando funções e configurações do Firebase
@@ -72,18 +72,20 @@ export default function Home() {
   // JSX para a interface da tela principal
   return (
     <View style={homeStyle.container}>
-      {/* Verificando se o usuário possui livros cadastrados */}
-      {books.length > 0 ? (
-        // Se houver livros, mapear e exibir cada um usando o componente Books
-        books.map((book, index) => (
-          <View key={index}>
-            <Books nome={book.bookName} valor={book.bookValue} comprei={book.hasOwn} />
-          </View>
-        ))
-      ) : (
-        // Se o usuário não tiver livros cadastrados, exibir uma mensagem
-        <Text style={global.title}>Você não tem livros cadastrados.</Text>
-      )}
+      <ScrollView>
+        {/* Verificando se o usuário possui livros cadastrados */}
+        {books.length > 0 ? (
+          // Se houver livros, mapear e exibir cada um usando o componente Books
+          books.map((book, index) => (
+            <View key={index}>
+              <Books nome={book.bookName} valor={book.bookValue} comprei={book.hasOwn} />
+            </View>
+          ))
+        ) : (
+          // Se o usuário não tiver livros cadastrados, exibir uma mensagem
+          <Text style={global.title}>Você não tem livros cadastrados.</Text>
+        )}
+      </ScrollView>
       {/* Incluindo o componente BottomBar no final da tela */}
       <BottomBar />
 

@@ -206,13 +206,13 @@ const modalStyles = StyleSheet.create({
 
 const bookBoxStyle = StyleSheet.create({
   button: {
-    width: '100%',
-    justifyContent: 'space-around',
+    width: '95%',
+    alignSelf: 'center',
     alignItems: 'center',
     flexDirection: 'row',
   },
   info: {
-    width: '40%',
+    width: '50%',
     flexDirection: 'row',
     alignContent: 'center',
     gap: 10,
@@ -231,7 +231,7 @@ const bookBoxStyle = StyleSheet.create({
     color: '#C1AA8B',
   },
   actionButtonsArea: {
-    width: '40%',
+    width: '50%',
     justifyContent: 'flex-end',
     gap: 10,
     alignItems: 'center',
