@@ -7,18 +7,19 @@ O E-Shelf é uma biblioteca digital pessoal que permite aos usuários adicionar,
 - Adicionar livros à sua biblioteca digital.
 - Editar informações dos livros existentes.
 - Remover livros da biblioteca.
+- Marcar como comprado.
 
 ## Tecnologias Utilizadas
 
-- ![React Native](https://img.shields.io/badge/React%20Native-0.64.2-blue.svg) - Uma estrutura para criar aplicativos móveis usando React.
+- ![React Native Icon](https://img.icons8.com/color/48/000000/react-native.png) **React Native**
   - Desenvolva aplicativos móveis multiplataforma.
   - Utiliza componentes React para construção de interfaces de usuário.
 
-- ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow.svg) - Linguagem de programação de alto nível.
+- ![JavaScript Icon](https://img.icons8.com/color/48/000000/javascript.png) **Javascript**
   - Amplamente utilizada para desenvolvimento web.
   - Facilita a interação do usuário e a manipulação do DOM.
 
-- ![Firebase](https://img.shields.io/badge/Firebase-9.0.0-orange.svg) - Plataforma de desenvolvimento de aplicativos móveis e web.
+- ![Firebase Icon](https://img.icons8.com/color/48/000000/firebase.png) **Firebase**
   - Realtime Database para armazenamento de dados em tempo real.
   - Autenticação fácil e escalável.
 
@@ -31,15 +32,20 @@ npm install
 ```
 Certifique-se de ter o Node.js e o npm instalados em seu sistema.
 
+## Iniciar o projeto
+
+Para iniciar o projeto em sua máquina, execute o seguinte comando:
+
+```bash
+npx expo start
+```
+
 ## Documentação
 
 Encontre mais informações e detalhes sobre cada tecnologia utilizada:
 
-- ![React Native Icon](https://img.icons8.com/color/48/000000/react-native.png)
-  - [Documentação oficial do React Native](https://reactnative.dev/docs/getting-started)
+- [Documentação oficial do React Native](https://reactnative.dev/docs/getting-started)
 
-- ![JavaScript Icon](https://img.icons8.com/color/48/000000/javascript.png)
-  - [Guia JavaScript da MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide)
+- [Guia JavaScript da MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide)
 
-- ![Firebase Icon](https://img.icons8.com/color/48/000000/firebase.png)
-  - [Documentação oficial do Firebase](https://firebase.google.com/docs)
+- [Documentação oficial do Firebase](https://firebase.google.com/docs)
